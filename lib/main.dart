@@ -17,10 +17,10 @@ import 'package:aquessa/setDailyLimit.dart';
 import 'package:aquessa/splashScreen.dart';
 import 'package:aquessa/darkotp.dart';
 import 'package:aquessa/otpVerification.dart';
+import 'package:aquessa/thank_you.dart';
 import 'package:aquessa/utility.dart';
 import 'package:flutter/material.dart';
 import 'package:native_notify/native_notify.dart';
-// import 'package:native_notify/native_notify.dart';
 
 
 void main() {
@@ -31,19 +31,20 @@ void main() {
     debugShowCheckedModeBanner: false,
     initialRoute: '/splashScreen',
     routes: {
-      '/splashScreen':(context) => SplashScreen(),
-      '/registration':(context) => Registration(),
-      '/otpVerification':(context) => OtpVerification(),
-      '/setDailyLimit':(context) => SetDailyLimit(),
-      '/darkOTP':(context) => DarkOTP(),
-      '/circularsetDailyLimit':(context) => CircularSetDailyLimit(),
-      '/utility':(context) => Utility(),
-      '/ownerutility':(context) => OwnerUtility(),
-      '/nameDevice':(context) => NameDevice(),
-      '/paymentsInvoices':(context) => PaymentInvoices(),
-      '/notifications':(context) => Notifications(),
-      '/graph':(context) => Graph(),
-      '/qrCodeScanner':(context) => QrCodeScanner()
+      '/splashScreen':(context) => const SplashScreen(),
+      '/registration':(context) => const Registration(),
+      '/otpVerification':(context) => const OtpVerification(),
+      '/setDailyLimit':(context) => const SetDailyLimit(),
+      '/darkOTP':(context) => const DarkOTP(),
+      '/circularsetDailyLimit':(context) => const CircularSetDailyLimit(),
+      '/utility':(context) => const Utility(),
+      '/ownerutility':(context) => const OwnerUtility(),
+      '/nameDevice':(context) => const NameDevice(),
+      '/paymentsInvoices':(context) => const PaymentInvoices(),
+      '/notifications':(context) => const Notifications(),
+      '/graph':(context) => const Graph(),
+      '/qrCodeScanner':(context) => const QrCodeScanner(),
+      '/thank_you':(context) => const ThankYou()
     },
   ));
 }

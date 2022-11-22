@@ -1,3 +1,4 @@
+// ignore_for_file: empty_catches, unused_field, use_build_context_synchronously, file_names
 
 import 'dart:async';
 
@@ -15,7 +16,6 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-
   bool? _hasSensor;
 
   LocalAuthentication authentication = LocalAuthentication();
@@ -25,11 +25,10 @@ class _SplashScreenState extends State<SplashScreen> {
     try {
       _hasSensor = await authentication.canCheckBiometrics;
 
-      if(_hasSensor!) {
+      if (_hasSensor!) {
         _getAuth();
       }
-    }on PlatformException {
-    }
+    } on PlatformException {}
   }
 
   @override
@@ -41,22 +40,26 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<void> _getAuth() async {
     bool isAuth = false;
-    try{
-      isAuth = await authentication.authenticate(localizedReason: 'Scan your finger to access the app',
-      options: AuthenticationOptions(stickyAuth: true,useErrorDialogs: true));
+    try {
+      isAuth = await authentication.authenticate(
+          localizedReason: 'Scan your finger to access the app',
+          options: const AuthenticationOptions(
+              stickyAuth: true, useErrorDialogs: true));
       if (isAuth) {
         _isauthenticating = true;
         Navigator.pushNamed(context, '');
       }
-    }on PlatformException {
-    }
+    } on PlatformException {}
   }
+
   @override
   Widget build(BuildContext context) {
-    return AnimatedSplashScreen(splash: 'assets/logo_aquesa.png',
-        nextScreen: Registration(),
+    return AnimatedSplashScreen(
+      splash: 'assets/logo_aquesa.png',
+      nextScreen: const Registration(),
       splashTransition: SplashTransition.fadeTransition,
-    backgroundColor: Color(0xFF72AFDE),duration: 2500,
+      backgroundColor: const Color(0xFF72AFDE),
+      duration: 2500,
     );
   }
 }

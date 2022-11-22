@@ -13,16 +13,44 @@ class Notifications extends StatefulWidget {
 class _NotificationsState extends State<Notifications> {
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(length: 3, child: Scaffold(
-      appBar: AppBar(automaticallyImplyLeading: false,centerTitle: true,
-        title: Text('Notifications',style: TextStyle(fontSize: 25,
-        fontWeight: FontWeight.w700,fontFamily: 'raleway',color: Color(0xFFFFFFFF)),),
-      bottom: PreferredSize(preferredSize: Size.square(53),child: Material(
-        color: Color(0xFF72AFDE),child: TabBar(labelColor: Color(0xFFFFFFFF),
-          unselectedLabelColor: Color(0xFF676C77),indicatorColor: Color(0xFFFFFFFF),
-          indicatorWeight: 2,tabs: [Tab(text: 'ALL',),Tab(text: 'PAYMENTS',),
-        Tab(text: 'LEAKAGE')],),),),backgroundColor: Color(0xFF72AFDE)),
-      body: TabBarView(children: [AllPage(),PaymentsPage(),LeakagePage()]),
-    ));
+    return DefaultTabController(
+        length: 3,
+        child: Scaffold(
+          appBar: AppBar(
+              automaticallyImplyLeading: false,
+              centerTitle: true,
+              title: const Text(
+                'Notifications',
+                style: TextStyle(
+                    fontSize: 25,
+                    fontWeight: FontWeight.w700,
+                    fontFamily: 'raleway',
+                    color: Color(0xFFFFFFFF)),
+              ),
+              bottom: const PreferredSize(
+                preferredSize: Size.square(53),
+                child: Material(
+                  color: Color(0xFF72AFDE),
+                  child: TabBar(
+                    labelColor: Color(0xFFFFFFFF),
+                    unselectedLabelColor: Color(0xFF676C77),
+                    indicatorColor: Color(0xFFFFFFFF),
+                    indicatorWeight: 2,
+                    tabs: [
+                      Tab(
+                        text: 'ALL',
+                      ),
+                      Tab(
+                        text: 'PAYMENTS',
+                      ),
+                      Tab(text: 'LEAKAGE')
+                    ],
+                  ),
+                ),
+              ),
+              backgroundColor: const Color(0xFF72AFDE)),
+          body: const TabBarView(
+              children: [AllPage(), PaymentsPage(), LeakagePage()]),
+        ));
   }
 }
