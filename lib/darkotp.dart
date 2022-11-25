@@ -112,15 +112,14 @@ class _DarkOTPState extends State<DarkOTP> {
                 SizedBox(
                     width: 234,
                     height: 47,
-                    child: RaisedButton(
-                        elevation: 5,
+                    child: ElevatedButton(
                         onPressed: () {
                           Navigator.pushNamed(context, '/thank_you');
-                        },
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(25),
+                        },style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25)
+                          ),padding: const EdgeInsets.all(0)
                         ),
-                        padding: const EdgeInsets.all(0),
                         child: Ink(
                             decoration: const BoxDecoration(
                                 gradient: LinearGradient(colors: [
@@ -128,10 +127,8 @@ class _DarkOTPState extends State<DarkOTP> {
                                    Color(0xFF4483D0)
                                 ]),
                                 borderRadius: BorderRadius.all(
-                                     Radius.circular(30))),
+                                     Radius.circular(25))),
                             child: Container(
-                                constraints: const BoxConstraints(
-                                    minWidth: 234, minHeight: 47),
                                 alignment: Alignment.center,
                                 child: const Text(
                                   'VERIFY AND PROCEED',

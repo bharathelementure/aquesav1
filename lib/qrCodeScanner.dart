@@ -29,7 +29,7 @@ class _QrCodeScannerState extends State<QrCodeScanner> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: const Color(0xFF72AFDE),
-        endDrawer: const NavDrawer(),
+        drawer: const NavDrawer(),
         appBar: AppBar(
           /*centerTitle: true,title: DropdownButton(
       items: [DropdownMenuItem(child: Text('16 sep 2022',style:
@@ -41,47 +41,44 @@ class _QrCodeScannerState extends State<QrCodeScanner> {
       setState(() => _value = _value);}),*/
           elevation: 0,
           backgroundColor: const Color(0xFF72AFDE),
-          /*leading: Builder(builder: (context) {
+          leading: Builder(builder: (context) {
             return IconButton(
                 onPressed: () => Scaffold.of(context).openDrawer(),
                 icon: const Icon(
-                  Icons.account_circle,
+                  Icons.menu,
                   color: Color(0xFFFFFFFF),
                   size: 27,
                 ));
-          }),*/
+          }),
         ),
         resizeToAvoidBottomInset: false,
         body: Center(
-          child: SingleChildScrollView(
-            reverse: true,
-            child: Stack(
-              children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                        height: 300,
-                        width: 300,
-                        child: QRView(key: _globalKey, onQRViewCreated: qr)),
-                    Center(
-                      child: (result != null)
-                          ? Text(
-                              "Barcode Type: ${describeEnum(result!.format)} "
-                              "Data: ${result!.code}")
-                          : const Text(
-                              "Tap to scan",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  fontFamily: 'raleway',
-                                  fontSize: 25,
-                                  color: Color(0xFF2A3F74)),
-                            ),
-                    )
-                  ],
-                )
-              ],
-            ),
+          child: Stack(
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                      height: 300,
+                      width: 300,
+                      child: QRView(key: _globalKey, onQRViewCreated: qr)),
+                  Center(
+                    child: (result != null)
+                        ? Text(
+                            "Barcode Type: ${describeEnum(result!.format)} "
+                            "Data: ${result!.code}")
+                        : const Text(
+                            "Tap to scan",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w700,
+                                fontFamily: 'raleway',
+                                fontSize: 21,
+                                color: Color(0xFF2A3F74)),
+                          ),
+                  )
+                ],
+              )
+            ],
           ),
         ));
   }

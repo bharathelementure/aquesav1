@@ -138,7 +138,7 @@ class NavDrawer extends StatelessWidget {
                 children: [
                   const Icon(
                     Icons.run_circle_sharp,
-                    color: Color(0xFF0601B4),
+                    color: Color(0xFF555555),
                     size: 21,
                   ),
                   const SizedBox(
@@ -193,7 +193,7 @@ class NavDrawer extends StatelessWidget {
                 children: [
                   const Icon(
                     Icons.percent_outlined,
-                    color: Color(0xFF0601B4),
+                    color: Color(0xFF555555),
                     size: 21,
                   ),
                   const SizedBox(

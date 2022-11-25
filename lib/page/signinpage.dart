@@ -91,17 +91,15 @@ class SignInPage extends StatelessWidget {
                 //button
                 const SizedBox(height: 25),
                 SizedBox(
-                    width: 234,
+                    width: 214,
                     height: 47,
-                    child: RaisedButton(focusColor: const Color(0xff6FADE0),
-                        elevation: 5,
+                    child: ElevatedButton(
                         onPressed: () {
                           Navigator.pushNamed(context, '/otpVerification');
                         },
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(25),
-                        ),
-                        padding: const EdgeInsets.all(0),
+                        style: ElevatedButton.styleFrom(shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25)
+                        ),padding: const EdgeInsets.all(0),),
                         child: Ink(
                           decoration: const BoxDecoration(
                               gradient: LinearGradient(colors: [
@@ -109,10 +107,8 @@ class SignInPage extends StatelessWidget {
                                 Color(0xFF4483D0)
                               ]),
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(30))),
+                                  BorderRadius.all(Radius.circular(25))),
                           child: Container(
-                            constraints: const BoxConstraints(
-                                minWidth: 234, minHeight: 47),
                             alignment: Alignment.center,
                             child: const Text(
                               'SUBMIT',

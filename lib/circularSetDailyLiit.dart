@@ -143,16 +143,14 @@ class _CircularSetDailyLimitState extends State<CircularSetDailyLimit> {
                 width: 234,
                 height: 47,
                 // ignore: deprecated_member_use
-                child: RaisedButton(
-                    elevation: 5,
+                child: ElevatedButton(
                     onPressed: () {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => SetDailyLimit(volumeValue: _volumeValue,)));
                     },
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25),
-                    ),
-                    padding: const EdgeInsets.all(0),
+                    style: ElevatedButton.styleFrom(shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(25)
+                    ),padding: const EdgeInsets.all(0)),
                     child: Ink(
                         decoration: const BoxDecoration(
                             gradient: LinearGradient(colors: [
@@ -160,7 +158,7 @@ class _CircularSetDailyLimitState extends State<CircularSetDailyLimit> {
                               Color(0xFF4483D0)
                             ]),
                             borderRadius:
-                                BorderRadius.all(Radius.circular(30))),
+                                BorderRadius.all(Radius.circular(25))),
                         child: Container(
                             constraints: const BoxConstraints(
                                 minWidth: 234, minHeight: 47),

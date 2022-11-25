@@ -1,5 +1,6 @@
-// ignore_for_file: unused_local_variable, non_constant_identifier_names
+// ignore_for_file: unused_local_variable, non_constant_identifier_names, unnecessary_null_comparison
 
+import 'package:aquessa/dart_Utils.dart' as date_util;
 import 'package:aquessa/page/navdrwer.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -13,9 +14,164 @@ class Graph extends StatefulWidget {
 }
 
 class _GraphState extends State<Graph> {
+  DateTimeRange rangeDate = DateTimeRange(start: DateTime.now().subtract(const Duration(days: 7)),
+      end: DateTime.now());
+  double width = 0.0;
+  double height = 0.0;
+  late ScrollController scrollController;
+  List<DateTime> currentMonthList = List.empty();
+  DateTime currentDateTime = DateTime.now();
+  List<String> todos = <String>[];
+
+  @override
+  void initState() {
+    currentMonthList = date_util.UtilsDate.daysInMonth(currentDateTime);
+    currentMonthList.sort((a, b) => a.day.compareTo(b.day));
+    currentMonthList = currentMonthList.toSet().toList();
+    scrollController =
+        ScrollController(initialScrollOffset: 70.0 * currentDateTime.day);
+    super.initState();
+  }
+
+  //month and year
+  Widget TitleDate() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
+      child: Text(
+        date_util.UtilsDate.months[currentDateTime.month - 1] +
+            ' ' +
+            currentDateTime.year.toString(),
+        style: const TextStyle(
+            color: Color(0xff2A3F74),
+            fontSize: 20,
+            fontFamily: 'raleway',
+            fontWeight: FontWeight.bold),
+      ),
+    );
+  }
+
+  //current date List
+  Widget HorizontalListView() {
+    return SizedBox(
+      width: width,
+      height: 150,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        physics: const ClampingScrollPhysics(),
+        shrinkWrap: true,
+        itemCount: currentMonthList.length,
+        itemBuilder: (BuildContext context, int index) => ViewGradient(index),
+      ),
+    );
+  }
+
+  Widget ViewGradient(int index) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(8, 0, 0, 0),
+      child: GestureDetector(
+        onTap: () {
+          setState(() {
+            currentDateTime = currentMonthList[index];
+          });
+        },
+        child: Container(
+          width: 80,
+          height: 140,
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  colors: (currentMonthList[index].day != currentDateTime.day)
+                      ? [
+                          Colors.white.withOpacity(0.8),
+                          Colors.white.withOpacity(0.7),
+                          Colors.white.withOpacity(0.6)
+                        ]
+                      : [
+                          const Color(0xffED6184),
+                          const Color(0xffEF315B),
+                          const Color(0xffE2042D)
+                        ],
+                  begin: const FractionalOffset(0, 0),
+                  end: const FractionalOffset(0, 1),
+                  stops: const [0, 0.5, 1],
+                  tileMode: TileMode.clamp),
+              borderRadius: BorderRadius.circular(40),
+              boxShadow: const [
+                BoxShadow(
+                    offset: Offset(4, 4),
+                    blurRadius: 4,
+                    spreadRadius: 2,
+                    color: Colors.black12)
+              ]),
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  currentMonthList[index].day.toString(),
+                  style: TextStyle(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 48,
+                      color:
+                          (currentMonthList[index].day != currentDateTime.day)
+                              ? const Color(0xff465876)
+                              : Colors.white),
+                ),
+                Text(
+                  date_util
+                      .UtilsDate.weekdays[currentMonthList[index].weekday - 1],
+                  style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w400,
+                      color:
+                          (currentMonthList[index].day != currentDateTime.day)
+                              ? const Color(0xff465876)
+                              : Colors.white),
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  //topView
+  Widget topView() {
+    return Container(
+      height: height * 0.35,
+      width: width,
+      decoration: BoxDecoration(
+          gradient: LinearGradient(
+              colors: [
+                const Color(0xff488BC8).withOpacity(0.7),
+                const Color(0xff488BC8).withOpacity(0.5),
+                const Color(0xff488BC8).withOpacity(0.3)
+              ],
+              begin: const FractionalOffset(0, 0),
+              end: const FractionalOffset(0, 1),
+              stops: const [0, 0.5, 1],
+              tileMode: TileMode.clamp),
+          boxShadow: const [
+            BoxShadow(
+                blurRadius: 4,
+                color: Colors.black12,
+                offset: Offset(4, 4),
+                spreadRadius: 2)
+          ],
+          borderRadius: const BorderRadius.only(
+            bottomLeft: Radius.circular(40),
+            bottomRight: Radius.circular(40),
+          )),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [TitleDate(), HorizontalListView()],
+      ),
+    );
+  }
+
   //date list with scroll
   Widget DateList() {
-    final dateList = [
+    /*final dateList = [
       '01',
       '02',
       '03',
@@ -46,36 +202,58 @@ class _GraphState extends State<Graph> {
       '28',
       '29',
       '30'
-    ];
+    ];*/
     return SizedBox(
         height: 50,
-        child: ListView.separated(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: ListView.builder(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
           scrollDirection: Axis.horizontal,
-          separatorBuilder: (_, __) => const SizedBox(width: 16),
-          itemCount: dateList.length,
-          itemBuilder: (_, index) => Container(
+          physics: const ClampingScrollPhysics(),
+          shrinkWrap: true,
+          // separatorBuilder: (_, __) => const SizedBox(width: 16),
+          itemCount: currentMonthList.length,
+          itemBuilder: (BuildContext context, int index) => PresentDate(index),
+        ));
+  }
+
+  Widget PresentDate(int index) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(8, 0, 0, 0),
+      child: GestureDetector(
+          onTap: () {
+            setState(() {
+              currentDateTime = currentMonthList[index];
+            });
+          },
+          child: Container(
             width: 48,
             height: 28,
             decoration: BoxDecoration(
               border: Border.all(
-                  color: index == 0 ? const Color(0xff3B7AC5) : const Color(0xffD6D6D6),
+                  color:
+                      // index == 0
+                      (currentMonthList[index].day != currentDateTime.day)
+                          ? const Color(0xffD6D6D6)
+                          : const Color(0xff3B7AC5),
                   width: 3),
               borderRadius: BorderRadius.circular(50),
               color: const Color(0xffFFFFFF),
             ),
             child: Center(
               child: Text(
-                dateList[index],
+                // dateList[index],
+                currentMonthList[index].day.toString(),
                 style: const TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w700,
                     fontFamily: 'inter',
-                    color: Color(0xff2A3F74)),
+                    color:
+                        // (currentMonthList[index].day != currentDateTime.day)
+                        Color(0xff2A3F74)),
               ),
             ),
-          ),
-        ));
+          )),
+    );
   }
 
   //Text of liters saved
@@ -191,60 +369,179 @@ class _GraphState extends State<Graph> {
     );
   }
 
+// textbutton week month year
   Widget monthData() {
-    return SizedBox(height: 40,
-    child: Row(mainAxisAlignment: MainAxisAlignment.center,
-    children: [TextButton(onPressed: () {},
-     child: const Text('Week',style: TextStyle(
-      fontFamily: 'raleway',fontSize: 12,
-      fontWeight: FontWeight.w600,color: Color(0xff2A3F74)
-     ),)),
-     const SizedBox(width: 10,),
-     TextButton(onPressed: () {},
-      child:  const Text('Month',style: TextStyle(
-      fontFamily: 'raleway',fontSize: 12,
-      fontWeight: FontWeight.w600,color: Color(0xff2A3F74)
-     ),)),
-     const SizedBox(width: 10,),
-     TextButton(onPressed: () {},
-      child:  const Text('Yearly',style: TextStyle(
-      fontFamily: 'raleway',fontSize: 12,
-      fontWeight: FontWeight.w600,color: Color(0xff2A3F74)
-     ),)),
-     ],),);
+    return SizedBox(
+      height: 40,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          TextButton(
+              onPressed: () {},
+              child: const Text(
+                'Week',
+                style: TextStyle(
+                    fontFamily: 'raleway',
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    color: Color(0xff2A3F74)),
+              )),
+          const SizedBox(
+            width: 10,
+          ),
+          TextButton(
+              onPressed: () {},
+              child: const Text(
+                'Month',
+                style: TextStyle(
+                    fontFamily: 'raleway',
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    color: Color(0xff2A3F74)),
+              )),
+          const SizedBox(
+            width: 10,
+          ),
+          TextButton(
+              onPressed: () {},
+              child: const Text(
+                'Yearly',
+                style: TextStyle(
+                    fontFamily: 'raleway',
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    color: Color(0xff2A3F74)),
+              )),
+        ],
+      ),
+    );
+  }
+
+// date Picker
+  Widget DatePicker() {
+    late DateTimeRange dateRange = DateTimeRange(
+      start: DateTime(2021, 11, 5),
+      end: DateTime(2022, 12, 31)
+    );
+    // start: DateTime.now().subtract(const Duration(days: 7)),
+    // end: DateTime.now());
+
+    Future PickDateRange(BuildContext context) async {
+      final start = dateRange.start;
+      final end = dateRange.end;
+
+      final initialDateRange = DateTimeRange(
+          start: DateTime.now().subtract(const Duration(days: 7)),
+          end: DateTime.now());
+      DateTimeRange? newDateRange = await showDateRangePicker(
+          context: context,
+          firstDate: DateTime(DateTime.now().year - 5),
+          lastDate: DateTime(DateTime.now().year + 5),
+          initialDateRange: dateRange);
+      if (newDateRange == null) return;
+      setState(() {
+        dateRange = newDateRange;
+      });
+    }
+
+    String getForm() {
+      if (dateRange == null) {
+        return 'Form';
+      } else {
+        return DateFormat('MM-dd-yyyy').format(dateRange.start);
+      }
+    }
+
+    String getUntil() {
+      if (dateRange == null) {
+        return 'Until';
+      } else {
+        return DateFormat('MM-dd-yyyy').format(dateRange.end);
+      }
+    }
+
+    return SizedBox(
+      height: 40,
+      child: Row(
+        children: [
+          Expanded(
+              child: ElevatedButton(
+                  onPressed: () => PickDateRange(context),
+                  child: Text(
+                    getForm(),
+                    style: const TextStyle(),
+                  ))),
+          const SizedBox(width: 8),
+          const Icon(Icons.arrow_forward, color: Colors.blueAccent),
+          const SizedBox(width: 8),
+          Expanded(
+              child: ElevatedButton(
+                  onPressed: () => PickDateRange(context),
+                  child: Text(
+                    getUntil(),
+                    style: const TextStyle(),
+                  )))
+        ],
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    final start = rangeDate.start;
+    final end = rangeDate.end;
+    final difference = rangeDate.duration;
+
     return Scaffold(
-      backgroundColor: const Color(0xff72AFDE),
-      endDrawer: const NavDrawer(),
-      appBar:  AppBar(elevation: 10,backgroundColor: const Color(0xff72AFDE),
-      leading: Container(padding: const EdgeInsets.only(left: 10,right: 5),),
-      title: const Text('Consumption',style: TextStyle(fontSize: 24,
-      fontFamily: 'raleway',fontWeight: FontWeight.bold,
-      color: Colors.white),),titleSpacing: 0.2,centerTitle: true,),
+      backgroundColor: const Color(0xff2A3F74),
+      drawer: const NavDrawer(),
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: const Color(0xffFFFFFF),
+        leading: Builder(builder: (context) {
+          return IconButton(
+              onPressed: () => Scaffold.of(context).openDrawer(),
+              icon: const Icon(
+                Icons.menu,
+                color: Color(0xff2A3F74),
+                size: 27,
+              ));
+        }),
+        /*Container(
+          padding: const EdgeInsets.only(left: 10, right: 5),
+        ),*/
+        title: Image.asset(
+          'assets/logo_aquesa.png',
+          color: const Color(0xff2A3F74),
+          scale: 2,
+        ),
+        titleSpacing: 0.2,
+        centerTitle: true,
+      ),
       body: ListView(
         padding: const EdgeInsets.only(top: 0, left: 0, right: 0),
         children: [
           SafeArea(
             child: Container(
-                height: 520,
+                height: 550,
                 color: const Color(0xffFFFFFF),
                 padding: const EdgeInsets.only(left: 10, right: 10),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
-                  children: [/*
-                    const SizedBox(height: 10),
+                  children: [
+                    TitleDate(),
+                    /*const SizedBox(height: 10),
                     Text(DateFormat('d-M-y').format(DateTime.now()),
                     style: const TextStyle(fontFamily: 'raleway',fontSize: 12,fontWeight: FontWeight.w500,
           color: Color(0xFF2A3F74)),),*/
-          const SizedBox(height: 20),
+                    const SizedBox(height: 0),
                     DateList(),
-                    const SizedBox(height: 10,),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     const Divider(
                       thickness: 3,
-                      color:  Color(0xffAFD3F1),
+                      color: Color(0xffAFD3F1),
                     ),
                     const SizedBox(height: 10),
                     LitersOftext(),
@@ -257,13 +554,38 @@ class _GraphState extends State<Graph> {
                       color: Color(0xffAFD3F1),
                     ),
                     const SizedBox(height: 0),
-                    monthData(),
+                    Row(mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(child: ElevatedButton(onPressed: rangePickDate,
+                          child: Text('${start.day}-${start.month}-${start.year}',
+                          style: const TextStyle(),))),
+                      const SizedBox(width: 18),
+                      Expanded(child: ElevatedButton(onPressed: rangePickDate,
+                          child: Text('${end.day}-${end.month}-${end.year}',
+                          style: const TextStyle(),)))
+                    ],),
+                    const SizedBox(height: 2),
+                    Text('Difference:  ${difference.inDays}days',
+                    style: const TextStyle(fontWeight: FontWeight.w400,
+                    fontSize: 17,fontFamily: 'raleway',
+                    color:  Color(0xff2A3F74)),)
                   ],
                 )),
           ),
         ],
       ),
     );
+  }
+  Future rangePickDate() async {
+    DateTimeRange? newDaterange = await showDateRangePicker(context: context,
+        initialDateRange: rangeDate,
+        firstDate: DateTime(1900),
+        lastDate: DateTime(2100));
+
+    if (newDaterange == null) return;
+    setState(() {
+      rangeDate = newDaterange;
+    });
   }
 }
 

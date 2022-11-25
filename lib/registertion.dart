@@ -31,8 +31,8 @@ class _RegistrationState extends State<Registration> {
             Fluttertoast.showToast(
                 msg: message,
                 fontSize: 18,
-                backgroundColor: const Color(0xffFFFFFF),
-                textColor: Colors.black);
+                backgroundColor: const Color(0xFF2292D7),
+                textColor: const Color(0xffFFFFFF));
 
             return false;
           } else {

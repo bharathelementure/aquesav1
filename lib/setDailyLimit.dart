@@ -154,15 +154,12 @@ class _SetDailyLimitState extends State<SetDailyLimit> {
               SizedBox(
                   width: 234,
                   height: 47,
-                  child: RaisedButton(
-                      elevation: 5,
+                  child: ElevatedButton(
                       onPressed: () {
                         Navigator.pushNamed(context, '/circularsetDailyLimit');
-                      },
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25),
-                      ),
-                      padding: const EdgeInsets.all(0),
+                      },style: ElevatedButton.styleFrom(shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25)
+                      ),padding: const EdgeInsets.all(0)),
                       child: Ink(
                           decoration: const BoxDecoration(
                               gradient: LinearGradient(colors: [
@@ -170,7 +167,7 @@ class _SetDailyLimitState extends State<SetDailyLimit> {
                                 Color(0xFF4483D0)
                               ]),
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(30))),
+                                  BorderRadius.all(Radius.circular(25))),
                           child: Container(
                               constraints: const BoxConstraints(
                                   minWidth: 234, minHeight: 47),
